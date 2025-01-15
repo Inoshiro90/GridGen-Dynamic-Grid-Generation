@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>Grid generator</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+  <link rel="stylesheet" href="styles/custom.css">
+</head>
+
+<body>
+  <div class="container mt-5">
+    <h1><b>Grid generator</b></h1>
+    <h2>Dimensions</h2>
+    <label for="input-field-point-width"><b>Width:</b></label>
+    <div>
+      <input type="number" id="input-field-point-width">
+    </div>
+    <label for="input-field-point-length"><b>Length:</b></label>
+    <div>
+      <input type="number" id="input-field-point-length">
+    </div>
+    <br>
+    <button id="btn-generate" class="btn btn-secondary mt-1">
+      Generieren
+    </button>
+    <br>
+    <h2>Generated Tables:</h2>
+    <div id="generatedTables"></div>
+  </div>
+  <!-- Bootstrap JavaScript -->
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+  <!--  -->
+  <script src="scripts/buttonGenerate.js"></script>
+  <script src="scripts/getDimensions.js"></script>
+  <script src="scripts/generateTables.js"></script>
+</body>
+
+</html>
