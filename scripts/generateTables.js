@@ -75,7 +75,7 @@ function displayDimensions(dimension, container) {
 function createSingleTable(dimension, tableData, container, tableNumber) {
 	// Tabellenüberschrift als separates Element
 	const title = document.createElement('div');
-	title.innerText = `Rotation +${tableNumber - 1}`;
+	title.innerHTML = `<h3>Rotation +${tableNumber - 1}</h3>`;
 	title.style.fontWeight = 'bold';
 	title.style.marginBottom = '10px';
 	title.style.textAlign = 'left';
@@ -84,7 +84,7 @@ function createSingleTable(dimension, tableData, container, tableNumber) {
 	const table = document.createElement('table');
 	table.style.borderCollapse = 'collapse';
 	table.style.marginBottom = '20px';
-	table.style.width = '25%';
+	table.style.width = '100%';
 	table.style.tableLayout = 'fixed'; // Gleichmäßige Spaltenbreiten
 
 	// Tabellenkopf
