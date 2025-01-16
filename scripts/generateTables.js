@@ -9,7 +9,7 @@ function generateTables(dimension) {
 	const numberOfTables = Math.floor(dimension.pointTotal / 2 - 1);
 
 	// Initiale Tabelle erstellen
-	let previousTableData = [];
+	let firstTableData = [];
 	for (let i = 1; i <= dimension.pointTotal; i++) {
 		let value;
 
@@ -32,20 +32,34 @@ function generateTables(dimension) {
 			value = dimension.C3 - (i - dimension.C4);
 		}
 
-		previousTableData.push(value);
+		firstTableData.push(value);
 	}
 
 	// Erste Tabelle generieren
-	createSingleTable(dimension, previousTableData, tableContainer, 1);
+	createSingleTable(dimension, firstTableData, tableContainer, 1);
 
 	// Zusätzliche Tabellen generieren
 	for (let t = 1; t <= numberOfTables; t++) {
-		const newTableData = previousTableData.map((value) =>
-			value + 1 > dimension.pointTotal ? 1 : value + 1
-		);
+		const newTableData = firstTableData.map((value, index) => {
+			let newValue = value + t;
+
+			// Wenn der Wert den maximalen Punktwert überschreitet
+			if (newValue > dimension.pointTotal) {
+				newValue = newValue % dimension.pointTotal;
+			}
+
+			// Neue Logik: Wenn Startpunkt = Endpunkt
+			if (newValue === index + 1) {
+				newValue += dimension.pointTotal / 2;
+				if (newValue > dimension.pointTotal) {
+					newValue = newValue - dimension.pointTotal;
+				}
+			}
+
+			return newValue;
+		});
 
 		createSingleTable(dimension, newTableData, tableContainer, t + 1);
-		previousTableData = newTableData; // Neue Tabelle wird zur vorherigen Tabelle
 	}
 }
 
@@ -55,7 +69,6 @@ function displayDimensions(dimension, container) {
 	dimensionContainer.style.marginBottom = '20px';
 
 	// Breite, Länge, Gesamtanzahl der Punkte, Ecken und Maximale Rotation anzeigen
-
 	dimensionContainer.innerHTML = `
 		<p><strong> Width:</strong> ${dimension.pointWidth}</p>
 		<p><strong> Length:</strong> ${dimension.pointLength}</p>
