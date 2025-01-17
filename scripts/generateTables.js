@@ -267,7 +267,7 @@ function calculateCoordinates(point, side, xMax, yMax, dimension) {
         case 'right':
             return { x: xMax, y: point - dimension.C2 };
         case 'top':
-            return { x: point - (dimension.C3 - dimension.C2), y: yMax };
+            return { x: (xMax - 1) - (point - (dimension.pointWidth + dimension.pointLength)), y: yMax };
         case 'left':
             return { x: 0, y: yMax - (point - dimension.C4) };
         case 'corner':
