@@ -231,7 +231,7 @@ function createSingleTable(dimension, tableData, container, tableNumber, xMax, y
 		const url = URL.createObjectURL(svgBlob);
 		const link = document.createElement('a');
 		link.href = url;
-		link.download = `grid_${dimension.pointWidth}x${dimension.pointLength}_${tableNumber}-${
+		link.download = `grid_${dimension.pointWidth}x${dimension.pointLength}_${tableNumber-1}-${
 			dimension.pointWidth < dimension.pointLength
 				? dimension.pointWidth + 1
 				: dimension.pointLength + 1
