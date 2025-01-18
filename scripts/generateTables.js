@@ -50,8 +50,6 @@ function generateTables(dimension) {
 		firstTableData.push(value);
 	}
 
-	// Funktion zum Herunterladen des SVGs
-
 	// Erste Tabelle generieren
 	createSingleTable(dimension, firstTableData, tableContainer, 1, xMax, yMax, corners);
 
@@ -173,6 +171,15 @@ function createSingleTable(dimension, tableData, container, tableNumber, xMax, y
 	svg.setAttribute('height', svgHeight);
 	svg.style.border = '1px solid black';
 
+	// Umrandung hinzufügen
+	const border = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+	border.setAttribute('x', 0);
+	border.setAttribute('y', 0);
+	border.setAttribute('width', svgWidth);
+	border.setAttribute('height', svgHeight);
+	border.setAttribute('style', 'stroke:black;stroke-width:1;fill:none;');
+	svg.appendChild(border);
+
 	// Tabellenkörper
 	const tbody = document.createElement('tbody');
 	for (let i = 1; i <= dimension.pointTotal; i++) {
@@ -184,6 +191,25 @@ function createSingleTable(dimension, tableData, container, tableNumber, xMax, y
 		const endPoint = tableData[i - 1];
 		const endSide = determineSide(endPoint, dimension);
 		const endCoords = calculateCoordinates(endPoint, endSide, xMax, yMax, dimension);
+
+		// Überspringe Verbindungen innerhalb derselben Seite oder zu angrenzenden Ecken
+		if (
+			(startSide === endSide && startSide !== 'corner') || // Innerhalb derselben Seite
+			(startSide === 'bottom' &&
+				endSide === 'corner' &&
+				(endPoint === dimension.C1 || endPoint === dimension.C2)) ||
+			(startSide === 'right' &&
+				endSide === 'corner' &&
+				(endPoint === dimension.C2 || endPoint === dimension.C3)) ||
+			(startSide === 'top' &&
+				endSide === 'corner' &&
+				(endPoint === dimension.C3 || endPoint === dimension.C4)) ||
+			(startSide === 'left' &&
+				endSide === 'corner' &&
+				(endPoint === dimension.C4 || endPoint === dimension.C1))
+		) {
+			continue; // Verbindung wird übersprungen
+		}
 
 		const cells = [
 			i,
@@ -227,17 +253,27 @@ function createSingleTable(dimension, tableData, container, tableNumber, xMax, y
 	table.appendChild(tbody);
 
 	function downloadSVG(svg, tableNumber, dimension) {
-		const svgBlob = new Blob([svg.outerHTML], {type: 'image/svg+xml'});
-		const url = URL.createObjectURL(svgBlob);
+		// Konvertiere das SVG-Element in einen String
+		const svgContent = new XMLSerializer().serializeToString(svg);
+	
+		// Erstelle einen Blob mit dem richtigen MIME-Typ für SVG
+		const svgBlob = new Blob([svgContent], { type: 'image/svg+xml' });
+	
+		// Erstelle eine URL für den Blob
+		const svgUrl = URL.createObjectURL(svgBlob);
+	
+		// Erstelle einen Download-Link
 		const link = document.createElement('a');
-		link.href = url;
-		link.download = `grid_${dimension.pointWidth}x${dimension.pointLength}_${tableNumber-1}-${
-			dimension.pointWidth < dimension.pointLength
-				? dimension.pointWidth + 1
-				: dimension.pointLength + 1
-		}.svg`; // Benennung des Downloads
-		link.click();
-		URL.revokeObjectURL(url); // Verhindert Speicherlecks
+		link.href = svgUrl;
+		link.download = `grid_${dimension.pointWidth}x${dimension.pointLength}_${tableNumber}.svg`; // Benennung des Downloads
+	
+		// Klicke auf den Link, um den Download zu starten
+		document.body.appendChild(link);  // Füge den Link temporär hinzu, um ihn auszulösen
+		link.click(); // Klick auslösen
+		document.body.removeChild(link); // Entferne den Link nach dem Klick
+	
+		// Bereinige die URL, um Speicherlecks zu vermeiden
+		URL.revokeObjectURL(svgUrl);
 	}
 
 	// Download-Link für das SVG hinzufügen
@@ -283,6 +319,42 @@ function getCellColor(value, dimension) {
 	}
 }
 
+// Funktion, um alle SVGs in einer ZIP-Datei herunterzuladen
+function downloadAllSVGsAsZip(dimension) {
+	const zip = new JSZip();
+	const svgElements = document.querySelectorAll('svg');
+	const svgFolder = zip.folder('SVGs');
+
+	svgElements.forEach((svg, index) => {
+		const svgContent = new XMLSerializer().serializeToString(svg);
+		svgFolder.file(
+			`grid_${dimension.pointWidth}x${dimension.pointLength}_${index + 1}.svg`,
+			svgContent
+		);
+	});
+
+	zip.generateAsync({type: 'blob'}).then((content) => {
+		const link = document.createElement('a');
+		link.href = URL.createObjectURL(content);
+		link.download = `SVGs_${dimension.pointWidth}x${dimension.pointLength}.zip`;
+		link.click();
+		URL.revokeObjectURL(link.href);
+	});
+}
+
+// Batch-Download-Button hinzufügen
+function addBatchDownloadButton(container, dimension) {
+	const batchDownloadButton = document.createElement('button');
+	batchDownloadButton.innerText = 'Download All SVGs';
+	batchDownloadButton.id = 'btn-download-all-svgs';
+	batchDownloadButton.classList.add('btn', 'btn-primary', 'mt-2');
+	batchDownloadButton.style.display = 'block';
+
+	batchDownloadButton.onclick = () => downloadAllSVGsAsZip(dimension);
+
+	container.appendChild(batchDownloadButton);
+}
+
 // Funktion, um die Dimensionen anzuzeigen
 function displayDimensions(dimension, xMax, yMax, container) {
 	const dimensionContainer = document.createElement('div');
@@ -306,4 +378,5 @@ function displayDimensions(dimension, xMax, yMax, container) {
     `;
 
 	container.appendChild(dimensionContainer);
+	addBatchDownloadButton(container, dimension); // Batch-Button hinzufügen
 }
