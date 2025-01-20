@@ -255,25 +255,79 @@ function createSingleTable(dimension, tableData, container, tableNumber, xMax, y
 	function downloadSVG(svg, tableNumber, dimension) {
 		// Konvertiere das SVG-Element in einen String
 		const svgContent = new XMLSerializer().serializeToString(svg);
-	
+
 		// Erstelle einen Blob mit dem richtigen MIME-Typ für SVG
-		const svgBlob = new Blob([svgContent], { type: 'image/svg+xml' });
-	
+		const svgBlob = new Blob([svgContent], {type: 'image/svg+xml'});
+
 		// Erstelle eine URL für den Blob
 		const svgUrl = URL.createObjectURL(svgBlob);
-	
+
 		// Erstelle einen Download-Link
 		const link = document.createElement('a');
 		link.href = svgUrl;
 		link.download = `grid_${dimension.pointWidth}x${dimension.pointLength}_${tableNumber}.svg`; // Benennung des Downloads
-	
+
 		// Klicke auf den Link, um den Download zu starten
-		document.body.appendChild(link);  // Füge den Link temporär hinzu, um ihn auszulösen
+		document.body.appendChild(link); // Füge den Link temporär hinzu, um ihn auszulösen
 		link.click(); // Klick auslösen
 		document.body.removeChild(link); // Entferne den Link nach dem Klick
-	
+
 		// Bereinige die URL, um Speicherlecks zu vermeiden
 		URL.revokeObjectURL(svgUrl);
+	}
+
+	function downloadPNG(svg, tableNumber, dimension) {
+		// Speichere die ursprünglichen Werte für die ViewBox
+		const originalWidth = svg.width.baseVal.value;
+		const originalHeight = svg.height.baseVal.value;
+
+		// Berechne die neue ViewBox (größer als width und height)
+		const viewBoxWidth = originalWidth + 2;
+		const viewBoxHeight = originalHeight + 2;
+
+		// Ändere das viewBox-Attribut des SVGs auf die neue größere ViewBox
+		svg.setAttribute('viewBox', `0 0 ${viewBoxWidth} ${viewBoxHeight}`);
+
+		// Konvertiere das SVG-Element in einen String
+		const svgContent = new XMLSerializer().serializeToString(svg);
+
+		// Erstelle ein neues Image-Element
+		const img = new Image();
+
+		// Erstelle eine Data-URL für das SVG
+		const svgDataUrl = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svgContent);
+
+		// Setze die Quelle des Image-Elements auf die Data-URL
+		img.src = svgDataUrl;
+
+		img.onload = function () {
+			// Erstelle ein Canvas-Element
+			const canvas = document.createElement('canvas');
+			const ctx = canvas.getContext('2d');
+
+			// Setze die Canvas-Größe auf die tatsächliche SVG-Größe
+			canvas.width = originalWidth;
+			canvas.height = originalHeight;
+
+			// Zeichne das SVG-Bild auf das Canvas
+			ctx.drawImage(img, 0, 0);
+
+			// Erstelle eine Data-URL im PNG-Format
+			const pngDataUrl = canvas.toDataURL('image/png');
+
+			// Erstelle einen Link für den Download
+			const link = document.createElement('a');
+			link.href = pngDataUrl;
+			link.download = `grid_${dimension.pointWidth}x${dimension.pointLength}_${tableNumber}.png`; // Benennung des Downloads
+
+			// Klicke auf den Link, um den Download zu starten
+			document.body.appendChild(link); // Füge den Link temporär hinzu
+			link.click(); // Klick auslösen
+			document.body.removeChild(link); // Entferne den Link nach dem Klick
+
+			// Setze das viewBox-Attribut zurück auf die ursprünglichen Werte
+			svg.setAttribute('viewBox', `0 0 ${originalWidth} ${originalHeight}`);
+		};
 	}
 
 	// Download-Link für das SVG hinzufügen
@@ -291,11 +345,27 @@ function createSingleTable(dimension, tableData, container, tableNumber, xMax, y
 	// Event-Handler für den SVG-Download hinzufügen
 	downloadSVGButton.onclick = () => downloadSVG(svg, tableNumber, dimension);
 
+	// Download-Link für das PNG hinzufügen
+	const downloadPNGButton = document.createElement('button');
+	downloadPNGButton.innerText = 'Download PNG';
+
+	// Klassen und ID hinzufügen, um den Button anzupassen
+	downloadPNGButton.id = 'btn-download-png';
+	downloadPNGButton.classList.add('btn', 'btn-secondary', 'mt-1', 'mr-2'); // Hinzufügen von margin-right für Abstand
+
+	// display: block hinzufügen
+	downloadPNGButton.style.display = 'block'; // Damit die Buttons nebeneinander erscheinen
+	downloadPNGButton.style.marginBottom = '20px';
+
+	// Event-Handler für den PNG-Download hinzufügen
+	downloadPNGButton.onclick = () => downloadPNG(svg, tableNumber, dimension);
+
 	// Container-Elemente anhängen
 	container.appendChild(title);
 	container.appendChild(table);
 	container.appendChild(svg);
 	container.appendChild(downloadSVGButton);
+	container.appendChild(downloadPNGButton);
 }
 
 // Funktion zur Farbzuweisung
@@ -323,11 +393,9 @@ function getCellColor(value, dimension) {
 function downloadAllSVGsAsZip(dimension) {
 	const zip = new JSZip();
 	const svgElements = document.querySelectorAll('svg');
-	const svgFolder = zip.folder('SVGs');
-
 	svgElements.forEach((svg, index) => {
 		const svgContent = new XMLSerializer().serializeToString(svg);
-		svgFolder.file(
+		zip.file(
 			`grid_${dimension.pointWidth}x${dimension.pointLength}_${index + 1}.svg`,
 			svgContent
 		);
@@ -343,7 +411,7 @@ function downloadAllSVGsAsZip(dimension) {
 }
 
 // Batch-Download-Button hinzufügen
-function addBatchDownloadButton(container, dimension) {
+function addSVGBatchDownloadButton(container, dimension) {
 	const batchDownloadButton = document.createElement('button');
 	batchDownloadButton.innerText = 'Download All SVGs';
 	batchDownloadButton.id = 'btn-download-all-svgs';
@@ -351,6 +419,105 @@ function addBatchDownloadButton(container, dimension) {
 	batchDownloadButton.style.display = 'block';
 
 	batchDownloadButton.onclick = () => downloadAllSVGsAsZip(dimension);
+
+	container.appendChild(batchDownloadButton);
+}
+
+// Batch-Download-Button hinzufügen
+function addSVGBatchDownloadButton(container, dimension) {
+	const batchDownloadButton = document.createElement('button');
+	batchDownloadButton.innerText = 'Download All SVGs';
+	batchDownloadButton.id = 'btn-download-all-svgs';
+	batchDownloadButton.classList.add('btn', 'btn-primary', 'mt-2');
+	batchDownloadButton.style.display = 'block';
+
+	batchDownloadButton.onclick = () => downloadAllSVGsAsZip(dimension);
+
+	container.appendChild(batchDownloadButton);
+}
+
+// Batch-Download-Button für PNGs hinzufügen
+function downloadAllPNGsAsZip(dimension) {
+	const zip = new JSZip();
+	const svgElements = document.querySelectorAll('svg');
+	const pngPromises = []; // Array, um alle PNG-Erstellungs-Promises zu speichern
+
+	svgElements.forEach((svg, index) => {
+		// Speichere die ursprünglichen Werte für die ViewBox
+		const originalWidth = svg.width.baseVal.value;
+		const originalHeight = svg.height.baseVal.value;
+
+		// Berechne die neue ViewBox (größer als width und height)
+		const viewBoxWidth = originalWidth + 2; // 2 Pixel größer als originalWidth
+		const viewBoxHeight = originalHeight + 2; // 2 Pixel größer als originalHeight
+
+		// Ändere das viewBox-Attribut des SVGs auf die neue größere ViewBox
+		svg.setAttribute('viewBox', `0 0 ${viewBoxWidth} ${viewBoxHeight}`);
+
+		// Konvertiere das SVG-Element in einen String
+		const svgContent = new XMLSerializer().serializeToString(svg);
+
+		// Erstelle ein neues Image-Element
+		const img = new Image();
+
+		// Erstelle eine Data-URL für das SVG
+		const svgDataUrl = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svgContent);
+
+		// Setze die Quelle des Image-Elements auf die Data-URL
+		img.src = svgDataUrl;
+
+		const pngPromise = new Promise((resolve) => {
+			img.onload = function () {
+				// Erstelle ein Canvas-Element
+				const canvas = document.createElement('canvas');
+				const ctx = canvas.getContext('2d');
+
+				// Setze die Canvas-Größe auf die tatsächliche SVG-Größe
+				canvas.width = originalWidth;
+				canvas.height = originalHeight;
+
+				// Zeichne das SVG-Bild auf das Canvas
+				ctx.drawImage(img, 0, 0);
+
+				// Erstelle eine PNG-Datei als Blob
+				canvas.toBlob(function (blob) {
+					zip.file(
+						`grid_${dimension.pointWidth}x${dimension.pointLength}_${index + 1}.png`,
+						blob
+					);
+					resolve(); // Promise auflösen, wenn der Blob hinzugefügt wurde
+				});
+
+				// Setze das viewBox-Attribut zurück auf die ursprünglichen Werte
+				svg.setAttribute('viewBox', `0 0 ${originalWidth} ${originalHeight}`);
+			};
+		});
+
+		pngPromises.push(pngPromise); // Speichere das Promise für späteres Warten
+	});
+
+	// Warten, bis alle PNGs verarbeitet wurden
+	Promise.all(pngPromises).then(() => {
+		// Nachdem alle PNGs hinzugefügt wurden, generiere die ZIP-Datei
+		zip.generateAsync({type: 'blob'}).then((content) => {
+			const link = document.createElement('a');
+			link.href = URL.createObjectURL(content);
+			link.download = `PNGs_${dimension.pointWidth}x${dimension.pointLength}.zip`;
+			link.click();
+			URL.revokeObjectURL(link.href);
+		});
+	});
+}
+
+// Batch-Download-Button hinzufügen
+function addPNGBatchDownloadButton(container, dimension) {
+	const batchDownloadButton = document.createElement('button');
+	batchDownloadButton.innerText = 'Download All PNGs';
+	batchDownloadButton.id = 'btn-download-all-pngs';
+	batchDownloadButton.classList.add('btn', 'btn-primary', 'mt-2');
+	batchDownloadButton.style.display = 'block';
+
+	batchDownloadButton.onclick = () => downloadAllPNGsAsZip(dimension);
 
 	container.appendChild(batchDownloadButton);
 }
@@ -378,5 +545,6 @@ function displayDimensions(dimension, xMax, yMax, container) {
     `;
 
 	container.appendChild(dimensionContainer);
-	addBatchDownloadButton(container, dimension); // Batch-Button hinzufügen
+	addSVGBatchDownloadButton(container, dimension);
+	addPNGBatchDownloadButton(container, dimension);
 }
