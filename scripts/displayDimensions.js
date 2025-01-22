@@ -20,7 +20,11 @@ function displayDimensions(dimension, xMax, yMax, container) {
 		}</p>
     `;
 
-	container.appendChild(dimensionContainer);
+    const checkboxDimension = document.getElementById('checkbox-dimension');
+	  if (checkboxDimension.checked) {
+		// Tabelle nur hinzufügen, wenn die Checkbox ausgewählt ist
+		container.appendChild(dimensionContainer);
+	  };
 	addSVGBatchDownloadButton(container, dimension);
 	addPNGBatchDownloadButton(container, dimension);
 }

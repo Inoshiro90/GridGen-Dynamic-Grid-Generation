@@ -26,6 +26,7 @@ function generateTables(dimension) {
 		tableContainer,
 		xMax,
 		yMax,
-		corners
+		corners,
+		rotationPatterns
 	);
 }

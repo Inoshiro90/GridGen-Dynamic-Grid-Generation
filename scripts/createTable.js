@@ -26,7 +26,12 @@ function createTable(dimension, tableData, container, tableNumber, xMax, yMax, c
 
 	// Elemente zum Container hinzufügen
 	container.appendChild(title);
-	container.appendChild(table);
+	  // Prüfen, ob die Checkbox aktiviert ist
+	  const checkboxTable = document.getElementById('checkbox-table');
+	  if (checkboxTable.checked) {
+		// Tabelle nur hinzufügen, wenn die Checkbox ausgewählt ist
+		container.appendChild(table);
+	  }
 	container.appendChild(svg);
 	downloadButtons.forEach((button) => container.appendChild(button));
 }

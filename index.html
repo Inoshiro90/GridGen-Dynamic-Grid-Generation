@@ -15,26 +15,55 @@
     <h1><b>Grid generator</b></h1>
     <h2>Dimensions</h2>
     <label for="input-field-point-width"><b>Width:</b></label>
-    <div>
-      <input type="number" id="input-field-point-width">
+    <div class="mb-3">
+      <input type="number" id="input-field-point-width" class="form-control small-dropdown col-md-1" min="3" value="5">
     </div>
     <label for="input-field-point-length"><b>Length:</b></label>
-    <div>
-      <input type="number" id="input-field-point-length">
+    <div class="mb-3">
+      <input type="number" min="3" value="5" id="input-field-point-length" class="form-control small-dropdown col-md-1">
     </div>
+    <label for="input-field-cell-size"><b>Cell size:</b></label>
+    <div class="d-flex align-items-center mb-3">
+      <input type="number" id="input-field-cell-size" value="5" class="form-control small-dropdown col-md-1">
+      <span>&nbsp</span>
+      <select class="form-control small-dropdown col-md-1" id="cell-size-unit-dropdown">
+        <option id="mm">mm</option>
+        <option id="inch">inch</option>
+      </select>
+    </div>
+    <label for="input-field-line-width"><b>Line width:</b></label>
+    <div class="d-flex align-items-center mb-3">
+      <input type="number" class="form-control small-dropdown col-md-1" id="input-field-line-width" value="0.2"
+        min="0.2">
+      <span>&nbsp point(s)</span>
+    </div>
+    <label class="checkbox-label">
+      <input type="checkbox" id="checkbox-dimension" class="checkbox" unchecked />
+      Show dimensions
+    </label>
+    <br>
+    <label class="checkbox-label">
+      <input type="checkbox" id="checkbox-table" class="checkbox" unchecked />
+      Show tables
+    </label>
     <br>
     <button id="btn-generate" class="btn btn-secondary mt-1">
       Generate
     </button>
-    <br>
-    <h2>Generated Tables:</h2>
+    <br><br>
+    <!-- <h2>Generated Tables:</h2> -->
     <div id="generatedTables"></div>
   </div>
+
   <!-- Bootstrap JavaScript -->
   <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+  <script src="scripts/eventListener.js"></script>
+  <script src="scripts/setupUnitConversionListener.js"></script>
+
   <!--  -->
+  <script src="scripts/rotationPatterns.js"></script>
   <script src="scripts/buttonGenerate.js"></script>
   <script src="scripts/getDimensions.js"></script>
   <script src="scripts/generateTables.js"></script>

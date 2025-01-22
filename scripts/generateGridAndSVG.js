@@ -1,9 +1,18 @@
-// Funktion für die Rastergenerierung (mit Linien)
 function generateGridAndSVG(dimension, tableData, xMax, yMax, lineData) {
-	// console.log('Line Data:', lineData);
-	// console.log('Table Data:', tableData);
+	// Eingabefelder und Dropdown abrufen
+	const lineWidthInput = document.getElementById('input-field-line-width');
+	const lineWidth = lineWidthInput.value; // Wert des Inputs
+	const cellSizeInput = document.getElementById('input-field-cell-size');
+	const unitDropdown = document.getElementById('cell-size-unit-dropdown');
 
-	const pointDistanceInPixels = 25 / 0.26458;
+	// Cell Size und Einheit
+	const cellSize = parseFloat(cellSizeInput.value);
+	const unit = unitDropdown.value;
+
+	// Punktabstand in Pixel basierend auf der Einheit berechnen (300 dpi)
+	const mmToPixels = 100 / 25.4; // 1 mm ≈ 11.811 Pixels
+	const inchToPixels = 100; // 1 inch = 300 Pixels
+	const pointDistanceInPixels = cellSize * (unit === 'mm' ? mmToPixels : inchToPixels);
 
 	// SVG für Linien
 	const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
@@ -19,17 +28,21 @@ function generateGridAndSVG(dimension, tableData, xMax, yMax, lineData) {
 
 	svg.setAttribute('width', svgWidth);
 	svg.setAttribute('height', svgHeight);
-	svg.style.border = '1px solid black';
+	svg.style.border = `${lineWidth * 0.75}px solid black`;
 
+	// Erstelle den SVG-Rahmen
 	const border = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
 	border.setAttribute('x', 0);
 	border.setAttribute('y', 0);
 	border.setAttribute('width', svgWidth);
 	border.setAttribute('height', svgHeight);
-	border.setAttribute('style', 'stroke:black;stroke-width:1;fill:none;');
+	border.setAttribute(
+		'style',
+		`stroke:black;stroke-width: ${lineWidth * 0.75}px; border-style: solid; border-width: 1pt; fill:none;`
+	);
 	svg.appendChild(border);
 
-	// Linien hinzufügen
+	// Füge Linien hinzu
 	lineData.forEach(({startCoords, endCoords}) => {
 		const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
 		const scaleFactorX = svgWidth / xMax;
@@ -39,9 +52,10 @@ function generateGridAndSVG(dimension, tableData, xMax, yMax, lineData) {
 		line.setAttribute('y1', svgHeight - startCoords.y * scaleFactorY);
 		line.setAttribute('x2', endCoords.x * scaleFactorX);
 		line.setAttribute('y2', svgHeight - endCoords.y * scaleFactorY);
-		line.setAttribute('style', 'stroke:black;stroke-width:1');
+		line.setAttribute('style', `stroke:black;stroke-width:${lineWidth * 0.75}px;`);
 		svg.appendChild(line);
 	});
-	// console.log('Generating SVG with:', {dimension, tableData, xMax, yMax, lineData});
+
+	// Gib das SVG-Element und seine Maße zurück
 	return {svg, svgWidth, svgHeight};
 }
