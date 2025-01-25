@@ -12,7 +12,9 @@ function generateGridAndSVG(dimension, tableData, xMax, yMax, lineData) {
 	// Punktabstand in Pixel basierend auf der Einheit berechnen (300 dpi)
 	const mmToPixels = 100 / 25.4; // 1 mm ≈ 11.811 Pixels
 	const inchToPixels = 100; // 1 inch = 300 Pixels
-	const pointDistanceInPixels = cellSize * (unit === 'mm' ? mmToPixels : inchToPixels);
+	const pixel = 1;
+	const pointDistanceInPixels =
+		cellSize * (unit === 'mm' ? mmToPixels : unit === 'inch' ? inchToPixels : pixel);
 
 	// SVG für Linien
 	const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
@@ -38,7 +40,9 @@ function generateGridAndSVG(dimension, tableData, xMax, yMax, lineData) {
 	border.setAttribute('height', svgHeight);
 	border.setAttribute(
 		'style',
-		`stroke:black;stroke-width: ${lineWidth * 0.75}px; border-style: solid; border-width: 1pt; fill:none;`
+		`stroke:black;stroke-width: ${
+			lineWidth * 0.75
+		}px; border-style: solid; border-width: 1pt; fill:none;`
 	);
 	svg.appendChild(border);
 
