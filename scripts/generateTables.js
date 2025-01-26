@@ -27,6 +27,6 @@ function generateTables(dimension) {
 		xMax,
 		yMax,
 		corners,
-		rotationPatterns
+		// rotationPattern
 	);
 }
