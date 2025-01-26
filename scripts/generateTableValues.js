@@ -1,8 +1,33 @@
+// // Funktion zum Generieren zusätzlicher Tabellen
+// function generateTableValues(dimension, firstTableData, numberOfTables, tableContainer, xMax, yMax, corners) {
+//     for (let t = 1; t <= numberOfTables; t++) {
+//         const newTableData = firstTableData.map((value, index) => {
+//             let newValue = value + t;
+
+//             // Wenn der Wert den maximalen Punktwert überschreitet
+//             if (newValue > dimension.pointTotal) {
+//                 newValue = newValue % dimension.pointTotal;
+//             }
+
+//             // Neue Logik: Wenn Startpunkt = Endpunkt
+//             if (newValue === index + 1) {
+//                 newValue += dimension.pointTotal / 2;
+//                 if (newValue > dimension.pointTotal) {
+//                     newValue = newValue - dimension.pointTotal;
+//                 }
+//             }
+
+//             return newValue;
+//         });
+
+//         createTable(dimension, newTableData, tableContainer, t + 1, xMax, yMax, corners);
+//     }
+// }
 // Funktion zum Generieren zusätzlicher Tabellen
 function generateTableValues(dimension, firstTableData, numberOfTables, tableContainer, xMax, yMax, corners) {
     for (let t = 1; t <= numberOfTables; t++) {
-        const newTableData = firstTableData.map((value, index) => {
-            let newValue = value + t;
+        const newTableData = firstTableData.map((data, index) => {
+            let newValue = data.pointEnd + t; // Benutze pointEnd statt value
 
             // Wenn der Wert den maximalen Punktwert überschreitet
             if (newValue > dimension.pointTotal) {
@@ -10,19 +35,25 @@ function generateTableValues(dimension, firstTableData, numberOfTables, tableCon
             }
 
             // Neue Logik: Wenn Startpunkt = Endpunkt
-            if (newValue === index + 1) {
+            if (newValue === data.pointStart) {  // Vergleiche mit pointStart
                 newValue += dimension.pointTotal / 2;
                 if (newValue > dimension.pointTotal) {
                     newValue = newValue - dimension.pointTotal;
                 }
             }
 
-            return newValue;
+            // Rückgabe des neuen Objekts mit aktualisiertem pointEnd
+            return {
+                pointStart: data.pointStart,
+                pointEnd: newValue
+            };
         });
 
+        // Erstelle die Tabelle mit den neuen Daten
         createTable(dimension, newTableData, tableContainer, t + 1, xMax, yMax, corners);
     }
 }
+
 
 // // Funktion zum Generieren zusätzlicher Tabellen mit Rotationsmustern
 // function generateTableValues(

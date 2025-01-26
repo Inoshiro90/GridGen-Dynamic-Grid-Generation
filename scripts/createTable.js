@@ -1,4 +1,4 @@
-function createTable(dimension, tableData, container, tableNumber, xMax, yMax, corners) {
+function createTable(dimension, firstTableData, container, tableNumber, xMax, yMax, corners) {
 	// Titel erstellen
 	const title = createTableTitle(tableNumber);
 
@@ -15,11 +15,11 @@ function createTable(dimension, tableData, container, tableNumber, xMax, yMax, c
 
 	// Tabellenkörper erstellen
 	const lineData = [];
-	const tbody = createTableBody(dimension, tableData, xMax, yMax, lineData);
+	const tbody = createTableBody(dimension, firstTableData, xMax, yMax, lineData);
 	table.appendChild(tbody);
 
 	// Raster und SVG erstellen
-	const {svg} = generateGridAndSVG(dimension, tableData, xMax, yMax, lineData);
+	const {svg} = generateGridAndSVG(dimension, firstTableData, xMax, yMax, lineData);
 
 	// Download-Buttons erstellen
 	const downloadButtons = generateDownloadButtons(svg, tableNumber, dimension);
