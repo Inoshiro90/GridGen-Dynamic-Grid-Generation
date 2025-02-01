@@ -28,8 +28,8 @@
       <span>&nbsp</span>
       <select class="form-control small-dropdown col-md-1" id="cell-size-unit-dropdown">
         <option id="mm">mm</option>
-        <option id="inch">inch</option>
-        <option id="inch">px</option>
+        <option id="in">in</option>
+        <option id="px">px</option>
       </select>
     </div>
     <label for="input-field-line-width"><b>Line width:</b></label>
@@ -38,60 +38,38 @@
         min="0.2">
       <span>&nbsp point(s)</span>
     </div>
-    <label class="checkbox-label">
-      <input type="checkbox" id="checkbox-dimension" class="checkbox" unchecked />
-      Show dimensions
-    </label>
-    <br>
-    <label class="checkbox-label">
-      <input type="checkbox" id="checkbox-table" class="checkbox" unchecked />
-      Show tables
-    </label>
-    <br>
+    <label for="input-field-dpi"><b>Dots per inch:</b></label>
+    <div class="d-flex align-items-center mb-3">
+      <input type="number" class="form-control small-dropdown col-md-1" id="input-field-dpi" value="300" min="72"
+        max="4000">
+    </div>
     <button id="btn-generate" class="btn btn-secondary mt-1">
       Generate
     </button>
     <br><br>
-    <!-- <h2>Generated Tables:</h2> -->
-    <div id="generatedTables"></div>
+    <div id="generatedTablesAndGrids"></div>
   </div>
-
-  <!-- Bootstrap JavaScript -->
   <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-  <script src="scripts/eventListener.js"></script>
-  <script src="scripts/setupUnitConversionListener.js"></script>
-
-  <!--  -->
-  <script src="scripts/rotationPatterns.js"></script>
-  <script src="scripts/buttonGenerate.js"></script>
-  <script src="scripts/getDimensions.js"></script>
-  <script src="scripts/generateTables.js"></script>
-  <script src="scripts/generateTableValues.js"></script>
-  <script src="scripts/calculateXMaximum.js"></script>
-  <script src="scripts/calculateYMaximum.js"></script>
-  <script src="scripts/defineCorners.js"></script>
-  <script src="scripts/displayDimensions.js"></script>
-  <script src="scripts/calculateTableNumber.js"></script>
-  <script src="scripts/generateInitialTableData.js"></script>
-  <script src="scripts/createTable.js"></script>
-  <script src="scripts/createTableTitle.js"></script>
-  <script src="scripts/createTableHeader.js"></script>
-  <script src="scripts/createTableBody.js"></script>
-  <script src="scripts/generateDownloadButtons.js"></script>
-  <script src="scripts/generateGridAndSVG.js"></script>
-  <script src="scripts/generateTableRows.js"></script>
-  <script src="scripts/determineSide.js"></script>
-  <script src="scripts/calculateCoordinates.js"></script>
-  <script src="scripts/getCellColor.js"></script>
-  <script src="scripts/downloadSVG.js"></script>
-  <script src="scripts/downloadPNG.js"></script>
-  <script src="scripts/addSVGBatchDownloadButton.js"></script>
-  <script src="scripts/addPNGBatchDownloadButton.js"></script>
-  <script src="scripts/downloadAllSVGsAsZip.js"></script>
-  <script src="scripts/downloadAllPNGsAsZip.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+
+  <script src="scripts/data processing/getUserInputs.js"></script>
+  <script src="scripts/data processing/calculateDimensions.js"></script>
+  <script src="scripts/data processing/generateFirstTableValues.js"></script>
+  <script src="scripts/data processing/calculateCoordinates.js"></script>
+  <script src="scripts/data processing/determineSidesForPoints.js"></script>
+  <script src="scripts/data processing/applyRotationPattern.js"></script>
+  <script src="scripts/data processing/rotationPattern.js"></script>
+
+  <script src="scripts/grid generation/generateSVGContainer.js"></script>
+  <script src="scripts/grid generation/placeAndConnectPoints.js"></script>
+  <script src="scripts/user interface/displayGrid.js"></script>
+  <script src="scripts/user interface/downloadSVG.js"></script>
+  <script src="scripts/user interface/downloadPNG.js"></script>
+  <script src="scripts/user interface/downloadAllSVGsAsZip.js"></script>
+  <script src="scripts/user interface/downloadAllPNGsAsZip.js"></script>
+  <script src="scripts/user interface/attachEventListeners.js"></script>
 </body>
 
 </html>

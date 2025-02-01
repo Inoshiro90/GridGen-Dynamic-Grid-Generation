@@ -1,5 +1,5 @@
 // Batch-Download-Button für PNGs hinzufügen
-function downloadAllPNGsAsZip(dimension) {
+function downloadAllPNGsAsZip(dimensions, userInputs) {
 	const zip = new JSZip();
 	const svgElements = document.querySelectorAll('svg');
 	const pngPromises = []; // Array, um alle PNG-Erstellungs-Promises zu speichern
@@ -44,7 +44,7 @@ function downloadAllPNGsAsZip(dimension) {
 				// Erstelle eine PNG-Datei als Blob
 				canvas.toBlob(function (blob) {
 					zip.file(
-						`grid_${dimension.pointWidth}x${dimension.pointLength}_${index + 1}.png`,
+						`grid_${dimensions.pointWidth}x${dimensions.pointLength}_${userInputs.pointDistance}${userInputs.pointDistanceUnit}x${userInputs.dpi}dpi_${index + 1}.png`,
 						blob
 					);
 					resolve(); // Promise auflösen, wenn der Blob hinzugefügt wurde
@@ -64,7 +64,7 @@ function downloadAllPNGsAsZip(dimension) {
 		zip.generateAsync({type: 'blob'}).then((content) => {
 			const link = document.createElement('a');
 			link.href = URL.createObjectURL(content);
-			link.download = `PNGs_${dimension.pointWidth}x${dimension.pointLength}.zip`;
+			link.download = `PNGs_${dimensions.pointWidth}x${dimensions.pointLength}_${userInputs.pointDistance}${userInputs.pointDistanceUnit}x${userInputs.dpi}dpi.zip`;
 			link.click();
 			URL.revokeObjectURL(link.href);
 		});
