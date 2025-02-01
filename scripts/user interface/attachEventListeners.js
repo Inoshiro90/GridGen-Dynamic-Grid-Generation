@@ -22,8 +22,8 @@ function attachEventListeners() {
 			tables.push(firstTableValues);
 
 			const batchSVGDownloadButton = document.createElement('button');
-			batchSVGDownloadButton.innerText = 'Download All PNGs';
-			batchSVGDownloadButton.id = 'btn-download-all-pngs';
+			batchSVGDownloadButton.innerText = 'Download All SVGs';
+			batchSVGDownloadButton.id = 'btn-download-all-svgs';
 			batchSVGDownloadButton.classList.add('btn', 'btn-primary', 'mt-3');
 			batchSVGDownloadButton.style.display = 'block';
 			batchSVGDownloadButton.onclick = () => downloadAllSVGsAsZip(dimensions, userInputs);
