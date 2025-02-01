@@ -1,5 +1,5 @@
 function downloadSVG(svgElement, tableNumber, dimensions, userInputs) {
-	console.log(dimensions);
+	// console.log(dimensions);
 	if (!svgElement) {
 		console.error('Error: SVG element not found.');
 		return;

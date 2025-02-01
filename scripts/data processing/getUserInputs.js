@@ -16,19 +16,19 @@ function getUserInputs() {
 
 	// Validierung der Eingaben
 	if (isNaN(pointWidth) || pointWidth < 3) {
-		alert('Bitte geben Sie eine gültige Zahl für die Breite ein (mindestens 3).');
+		alert('Please enter a valid number for the width (at least 3).');
 		return null;
 	}
 	if (isNaN(pointLength) || pointLength < 3) {
-		alert('Bitte geben Sie eine gültige Zahl für die Länge ein (mindestens 3).');
+		alert('Please enter a valid number for the length (at least 3).');
 		return null;
 	}
 	if (isNaN(pointDistance) || pointDistance <= 0.00) {
-		alert('Bitte geben Sie eine gültige Zahl für den Punktabstand ein (größer als 0).');
+		alert('Please enter a valid number for the point distance (greater than 0).');
 		return null;
 	}
 	if (isNaN(lineWidth) || lineWidth < 0.2) {
-		alert('Bitte geben Sie eine gültige Linienbreite ein (mindestens 0.2).');
+		alert('Please enter a valid line width (at least 0.2).');
 		return null;
 	}
 
