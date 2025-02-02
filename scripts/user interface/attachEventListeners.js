@@ -70,6 +70,12 @@ function attachEventListeners() {
 				);
 
 				displayGrid(svgContainer, dimensions, userInputs);
+
+				if (index > 0) {
+					// Nur aufrufen, wenn es **nicht das erste Raster** ist
+					displayRotatedGrid(svgContainer, dimensions, userInputs);
+				}
+
 				// Ausgabe für Debugging
 				// console.log(`SVG für Tabelle ${index + 1}:`, svgContainer);
 			});
