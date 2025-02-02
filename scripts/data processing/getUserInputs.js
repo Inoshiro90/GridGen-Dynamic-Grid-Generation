@@ -23,12 +23,16 @@ function getUserInputs() {
 		alert('Please enter a valid number for the length (at least 3).');
 		return null;
 	}
-	if (isNaN(pointDistance) || pointDistance <= 0.00) {
+	if (isNaN(pointDistance) || pointDistance <= 0.0) {
 		alert('Please enter a valid number for the point distance (greater than 0).');
 		return null;
 	}
 	if (isNaN(lineWidth) || lineWidth < 0.2) {
 		alert('Please enter a valid line width (at least 0.2).');
+		return null;
+	}
+	if (isNaN(dpi) || dpi < 72 || dpi > 4000) {
+		alert('Please enter a valid dpi (at least 72 but not greater than 4000).');
 		return null;
 	}
 
