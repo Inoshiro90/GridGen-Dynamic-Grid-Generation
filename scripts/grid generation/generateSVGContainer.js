@@ -20,8 +20,8 @@ function createSVGContainer(dimensions, pointDistance, pointDistanceUnit, dpi, l
 	}
 
 	// Berechnung der exakten Breite und Höhe in Pixeln
-	const svgWidth = pointDistance * (pointWidth - 1) * conversionFactor + lineWidth;
-	const svgHeight = pointDistance * (pointLength - 1) * conversionFactor + lineWidth;
+	const svgWidth = pointDistance * (pointWidth - 1) * conversionFactor ;
+	const svgHeight = pointDistance * (pointLength - 1) * conversionFactor;
 
 	// console.log(`SVG Container: width=${svgWidth}px, height=${svgHeight}px`);
 
