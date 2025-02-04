@@ -36,13 +36,18 @@ function displayRotatedGrid(svgContainer, dimensions, userInputs) {
 	downloadPNGButton.style.marginBottom = '20px';
 
 	// Speichere die aktuelle Nummer
-	const tableNumber = downloadCounter;
+	const tableNumber = String(downloadCounter).padStart(3, '0');
+	const fileName = `grid_${dimensions.pointWidth}x${dimensions.pointLength}_${
+		userInputs.pointDistance
+	}${userInputs.pointDistanceUnit}x${userInputs.dpi}_${userInputs.lineColor}${percentToHex(
+		userInputs.lineColorTransparency * 100
+	)}-${userInputs.lineWidth}_${tableNumber}`;
 
 	// Event-Listener für Download-Buttons
 	downloadSVGButton.addEventListener('click', function () {
 		const svgElement = svgWrapper.querySelector('svg');
 		if (svgElement) {
-			downloadSVG(svgElement, tableNumber, dimensions, userInputs);
+			downloadSVG(svgElement, fileName);
 		} else {
 			console.error('No SVG element found.');
 		}
@@ -51,7 +56,7 @@ function displayRotatedGrid(svgContainer, dimensions, userInputs) {
 	downloadPNGButton.addEventListener('click', function () {
 		const svgElement = svgWrapper.querySelector('svg');
 		if (svgElement) {
-			downloadPNG(svgElement, tableNumber, dimensions, userInputs);
+			downloadPNG(svgElement, fileName);
 		} else {
 			console.error('No SVG element found.');
 		}
