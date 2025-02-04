@@ -38,6 +38,17 @@
         min="0.2">
       <span>&nbsp point(s)</span>
     </div>
+    <label for="input-field-line-color"><b>Line color:</b></label>
+    <div class="d-flex align-items-center mb-3">
+      <input type="color" value="#000000" id="input-field-line-color" />
+    </div>
+    <label for="input-field-line-color-transparency"><b>Line transparency:</b></label>
+    <div class="d-flex align-items-center mb-3">
+      <input type="range" min="0" max="100" value="100" id="input-field-line-color-transparency"
+        oninput="this.nextElementSibling.value = this.value" />
+      <output>100</output>
+    </div>
+
     <label for="input-field-dpi"><b>Dots per inch:</b></label>
     <div class="d-flex align-items-center mb-3">
       <input type="number" class="form-control small-dropdown col-md-1" id="input-field-dpi" value="300" min="72"
@@ -71,6 +82,8 @@
   <script src="scripts/user interface/downloadAllSVGsAsZip.js"></script>
   <script src="scripts/user interface/downloadAllPNGsAsZip.js"></script>
   <script src="scripts/user interface/attachEventListeners.js"></script>
+  <script src="scripts/user interface/hexTransparency.js"></script>
+  <script src="scripts/user interface/percentToHex.js"></script>
 </body>
 
 </html>

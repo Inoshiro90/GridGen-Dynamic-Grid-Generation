@@ -20,13 +20,14 @@ function attachEventListeners() {
 
 			// Fügt die 'firstTableValues' zum 'tables' Array hinzu
 			tables.push(firstTableValues);
+			const folderName = `${dimensions.pointWidth}x${dimensions.pointLength}_${userInputs.pointDistance}${userInputs.pointDistanceUnit}x${userInputs.dpi}_${userInputs.lineColor}${percentToHex(userInputs.lineColorTransparency*100)}-${userInputs.lineWidth}`;
 
 			const batchSVGDownloadButton = document.createElement('button');
 			batchSVGDownloadButton.innerText = 'Download All SVGs';
 			batchSVGDownloadButton.id = 'btn-download-all-svgs';
 			batchSVGDownloadButton.classList.add('btn', 'btn-primary', 'mt-3');
 			batchSVGDownloadButton.style.display = 'block';
-			batchSVGDownloadButton.onclick = () => downloadAllSVGsAsZip(dimensions, userInputs);
+			batchSVGDownloadButton.onclick = () => downloadAllSVGsAsZip(folderName);
 			generatedTablesAndGrids.appendChild(batchSVGDownloadButton);
 
 			const batchPNGDownloadButton = document.createElement('button');
@@ -35,7 +36,7 @@ function attachEventListeners() {
 			batchPNGDownloadButton.classList.add('btn', 'btn-primary', 'mt-3');
 			batchPNGDownloadButton.style.display = 'block';
 			batchPNGDownloadButton.style.marginBottom = '20px';
-			batchPNGDownloadButton.onclick = () => downloadAllPNGsAsZip(dimensions, userInputs);
+			batchPNGDownloadButton.onclick = () => downloadAllPNGsAsZip(folderName);
 			generatedTablesAndGrids.appendChild(batchPNGDownloadButton);
 
 			// Fügt die rotierten Tabellen zum 'tables' Array hinzu
@@ -56,7 +57,8 @@ function attachEventListeners() {
 					userInputs.pointDistance,
 					userInputs.pointDistanceUnit,
 					userInputs.dpi,
-					userInputs.lineWidth
+					userInputs.lineWidth,
+					userInputs.lineColorTransparency
 				);
 
 				// Füge die Linien für diese Tabelle hinzu
@@ -66,7 +68,8 @@ function attachEventListeners() {
 					userInputs.pointDistance,
 					userInputs.pointDistanceUnit,
 					userInputs.dpi,
-					userInputs.lineWidth
+					userInputs.lineWidth,
+					userInputs.lineColor,
 				);
 
 				displayGrid(svgContainer, dimensions, userInputs);

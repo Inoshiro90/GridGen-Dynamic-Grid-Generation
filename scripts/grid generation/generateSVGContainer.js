@@ -1,4 +1,4 @@
-function createSVGContainer(dimensions, pointDistance, pointDistanceUnit, dpi, lineWidth) {
+function createSVGContainer(dimensions, pointDistance, pointDistanceUnit, dpi, lineWidth, lineColorTransparency) {
 	const {pointWidth, pointLength} = dimensions;
 
 	// Standardmäßig geht die Berechnung von px aus
@@ -26,7 +26,7 @@ function createSVGContainer(dimensions, pointDistance, pointDistanceUnit, dpi, l
 	// console.log(`SVG Container: width=${svgWidth}px, height=${svgHeight}px`);
 
 	// Erstelle das SVG mit expliziten ViewBox-Angaben für eine präzise Skalierung
-	let svgContent = `<svg xmlns="http://www.w3.org/2000/svg" width="${svgWidth}px" height="${svgHeight}px" viewBox="0 0 ${svgWidth}px ${svgHeight}px">`;
+	let svgContent = `<svg xmlns="http://www.w3.org/2000/svg" width="${svgWidth}px" height="${svgHeight}px" viewBox="0 0 ${svgWidth}px ${svgHeight}px" opacity="${lineColorTransparency}">`;
 	svgContent += `</svg>`;
 
 	return svgContent;

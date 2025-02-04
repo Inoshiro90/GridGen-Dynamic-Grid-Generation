@@ -4,7 +4,8 @@ function connectPoints(
 	pointDistance,
 	pointDistanceUnit,
 	dpi,
-	linewidth
+	lineWidth,
+	lineColor,
 ) {
 	// Berechnet den Umrechnungsfaktor basierend auf der Einheit
 	let conversionFactor;
@@ -44,21 +45,11 @@ function connectPoints(
 		.flat()
 		.map(
 			({x1, y1, x2, y2}) =>
-				`<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="black" stroke-width="${linewidth}pt"/>`
+				`<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="${lineColor}" stroke-width="${lineWidth}pt"/>`
 		)
 		.join('');
 
-	// // Füge den Rahmen (vier Linien um das Raster) hinzu
-	// const borderLines = `
-	//     <line x1="${minX}" y1="${minY}" x2="${maxX}" y2="${minY}" stroke="black" stroke-width="${linewidth}pt"/>
-	//     <line x1="${maxX}" y1="${minY}" x2="${maxX}" y2="${maxY}" stroke="black" stroke-width="${linewidth}pt"/>
-	//     <line x1="${maxX}" y1="${maxY}" x2="${minX}" y2="${maxY}" stroke="black" stroke-width="${linewidth}pt"/>
-	//     <line x1="${minX}" y1="${maxY}" x2="${minX}" y2="${minY}" stroke="black" stroke-width="${linewidth}pt"/>
-	// `;
-
-	// Füge das Raster und den Rahmen zum SVG-Container hinzu
-	// const updatedSvg = svgContainer.replace('</svg>', svgLines + borderLines + '</svg>');
-	const updatedSvg = svgContainer.replace('</svg>', svgLines + '</svg>');
+		const updatedSvg = svgContainer.replace('</svg>', svgLines + '</svg>');
 
 	// console.log('svgLines:', svgLines);
 	// console.log('borderLines:', borderLines);

@@ -1,4 +1,4 @@
-function downloadSVG(svgElement, tableNumber, dimensions, userInputs) {
+function downloadSVG(svgElement, fileName) {
 	// console.log(dimensions);
 	if (!svgElement) {
 		console.error('Error: SVG element not found.');
@@ -17,7 +17,7 @@ function downloadSVG(svgElement, tableNumber, dimensions, userInputs) {
 	// Erstelle einen versteckten Download-Link
 	const link = document.createElement('a');
 	link.href = svgUrl;
-	link.download = `grid_${dimensions.pointWidth}x${dimensions.pointLength}_${userInputs.pointDistance}${userInputs.pointDistanceUnit}x${userInputs.dpi}dpi_${tableNumber}.svg`; // Datei-Benennung
+	link.download = `grid_${fileName}.svg`; // Datei-Benennung
 
 	// Klick auf den Link, um den Download zu starten
 	document.body.appendChild(link); // Link temporär in den DOM einfügen

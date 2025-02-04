@@ -1,4 +1,4 @@
-function downloadPNG(svg, tableNumber, dimensions, userInputs) {
+function downloadPNG(svg, fileName) {
 	// Konvertiere das SVG-Element in einen String
 	const svgContent = new XMLSerializer().serializeToString(svg);
 
@@ -31,7 +31,7 @@ function downloadPNG(svg, tableNumber, dimensions, userInputs) {
 			// Erstelle einen Download-Link
 			const link = document.createElement('a');
 			link.href = pngUrl;
-			link.download = `grid_${dimensions.pointWidth}x${dimensions.pointLength}_${userInputs.pointDistance}${userInputs.pointDistanceUnit}x${userInputs.dpi}dpi_${tableNumber}.png`;
+			link.download = `grid_${fileName}.png`;
 
 			// Starte den Download
 			document.body.appendChild(link);

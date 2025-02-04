@@ -1,10 +1,11 @@
 // Batch-Download-Button für PNGs hinzufügen
-function downloadAllPNGsAsZip(dimensions, userInputs) {
+function downloadAllPNGsAsZip(folderName) {
 	const zip = new JSZip();
 	const svgElements = document.querySelectorAll('svg');
 	const pngPromises = []; // Array, um alle PNG-Erstellungs-Promises zu speichern
 
 	svgElements.forEach((svg, index) => {
+		const i = String(index + 1).padStart(3, '0');
 		// Speichere die ursprünglichen Werte für die ViewBox
 		const originalWidth = svg.width.baseVal.value;
 		const originalHeight = svg.height.baseVal.value;
@@ -43,10 +44,7 @@ function downloadAllPNGsAsZip(dimensions, userInputs) {
 
 				// Erstelle eine PNG-Datei als Blob
 				canvas.toBlob(function (blob) {
-					zip.file(
-						`grid_${dimensions.pointWidth}x${dimensions.pointLength}_${userInputs.pointDistance}${userInputs.pointDistanceUnit}x${userInputs.dpi}dpi_${index + 1}.png`,
-						blob
-					);
+					zip.file(`grid_${folderName}_${i}.png`, blob);
 					resolve(); // Promise auflösen, wenn der Blob hinzugefügt wurde
 				});
 
@@ -64,7 +62,7 @@ function downloadAllPNGsAsZip(dimensions, userInputs) {
 		zip.generateAsync({type: 'blob'}).then((content) => {
 			const link = document.createElement('a');
 			link.href = URL.createObjectURL(content);
-			link.download = `PNGs_${dimensions.pointWidth}x${dimensions.pointLength}_${userInputs.pointDistance}${userInputs.pointDistanceUnit}x${userInputs.dpi}dpi.zip`;
+			link.download = `PNGs_${folderName}.zip`;
 			link.click();
 			URL.revokeObjectURL(link.href);
 		});

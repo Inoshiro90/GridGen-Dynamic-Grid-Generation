@@ -6,6 +6,8 @@ function getUserInputs() {
 	const pointDistanceInput = document.getElementById('input-field-cell-size').value;
 	const pointDistanceUnit = document.getElementById('cell-size-unit-dropdown').value;
 	const lineWidthInput = document.getElementById('input-field-line-width').value;
+	const lineColorInput = document.getElementById('input-field-line-color').value;
+	const lineColorTransparencyInput = document.getElementById('input-field-line-color-transparency').value;
 	const dpi = parseFloat(document.getElementById('input-field-dpi').value);
 
 	// Konvertiere den Punktabstand, falls notwendig
@@ -43,6 +45,8 @@ function getUserInputs() {
 		pointDistance: pointDistance,
 		pointDistanceUnit: pointDistanceUnit,
 		lineWidth: lineWidth,
+		lineColor: lineColorInput,
+		lineColorTransparency: lineColorTransparencyInput/100, 
 		dpi: dpi,
 	};
 
