@@ -20,7 +20,11 @@ function attachEventListeners() {
 
 			// Fügt die 'firstTableValues' zum 'tables' Array hinzu
 			tables.push(firstTableValues);
-			const folderName = `${dimensions.pointWidth}x${dimensions.pointLength}_${userInputs.pointDistance}${userInputs.pointDistanceUnit}x${userInputs.dpi}_${userInputs.lineColor}${percentToHex(userInputs.lineColorTransparency*100)}-${userInputs.lineWidth}`;
+			const folderName = `${dimensions.pointWidth}x${dimensions.pointLength}_${
+				userInputs.pointDistance
+			}${userInputs.pointDistanceUnit}x${userInputs.dpi}_${
+				userInputs.lineColor
+			}${percentToHex(userInputs.lineColorTransparency * 100)}-${userInputs.lineWidth}`;
 
 			const batchSVGDownloadButton = document.createElement('button');
 			batchSVGDownloadButton.innerText = 'Download All SVGs';
@@ -69,7 +73,7 @@ function attachEventListeners() {
 					userInputs.pointDistanceUnit,
 					userInputs.dpi,
 					userInputs.lineWidth,
-					userInputs.lineColor,
+					userInputs.lineColor
 				);
 
 				displayGrid(svgContainer, dimensions, userInputs);
@@ -88,37 +92,37 @@ function attachEventListeners() {
 	// Event Listener für das Eingabefeld 'Width'
 	const widthInput = document.getElementById('input-field-point-width');
 	widthInput.addEventListener('input', () => {
-		console.log('New width entered:', widthInput.value);
+		// console.log('New width entered:', widthInput.value);
 	});
 
 	// Event Listener für das Eingabefeld 'Length'
 	const lengthInput = document.getElementById('input-field-point-length');
 	lengthInput.addEventListener('input', () => {
-		console.log('New length entered:', lengthInput.value);
+		// console.log('New length entered:', lengthInput.value);
 	});
 
 	// Event Listener für das Eingabefeld 'Point Distance'
 	const pointDistanceInput = document.getElementById('input-field-cell-size');
 	pointDistanceInput.addEventListener('input', () => {
-		console.log('New point distance entered:', pointDistanceInput.value);
+		// console.log('New point distance entered:', pointDistanceInput.value);
 	});
 
 	// Event Listener für die Dropdown-Auswahl 'Point Distance Unit'
 	const pointDistanceUnitDropdown = document.getElementById('cell-size-unit-dropdown');
 	pointDistanceUnitDropdown.addEventListener('change', () => {
-		console.log('New unit selected:', pointDistanceUnitDropdown.value);
+		// console.log('New unit selected:', pointDistanceUnitDropdown.value);
 	});
 
 	// Event Listener für das Eingabefeld 'Line Width'
 	const lineWidthInput = document.getElementById('input-field-line-width');
 	lineWidthInput.addEventListener('input', () => {
-		console.log('New line width entered:', lineWidthInput.value);
+		// console.log('New line width entered:', lineWidthInput.value);
 	});
 
 	// Event Listener für das Eingabefeld 'Dots per inch'
 	const dpiInput = document.getElementById('input-field-dpi');
 	dpiInput.addEventListener('input', () => {
-		console.log('New dpi entered:', dpiInput.value);
+		// console.log('New dpi entered:', dpiInput.value);
 	});
 }
 
