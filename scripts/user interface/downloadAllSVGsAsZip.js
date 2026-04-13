@@ -1,7 +1,7 @@
 // Funktion, um alle SVGs in einer ZIP-Datei herunterzuladen
 function downloadAllSVGsAsZip(folderName) {
 	const zip = new JSZip();
-	const svgElements = document.querySelectorAll('svg');
+	const svgElements = document.querySelectorAll('#generatedTablesAndGrids svg.generated-grid');
 
 	svgElements.forEach((svg, index) => {
 		const i = String(index + 1).padStart(3, '0');

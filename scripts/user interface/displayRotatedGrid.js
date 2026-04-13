@@ -13,7 +13,7 @@ function displayRotatedGrid(svgContainer, dimensions, userInputs) {
 	svgWrapper.innerHTML = svgContainer;
 
 	// Das SVG-Element abrufen und horizontal spiegeln
-	const svgElement = svgWrapper.querySelector('svg');
+	const svgElement = svgWrapper.querySelector('svg.generated-grid');
 	if (svgElement) {
 		const bbox = svgElement.getBBox(); // Größe des SVGs abrufen
 		const width = bbox.width; // Breite des SVGs
@@ -45,20 +45,20 @@ function displayRotatedGrid(svgContainer, dimensions, userInputs) {
 
 	// Event-Listener für Download-Buttons
 	downloadSVGButton.addEventListener('click', function () {
-		const svgElement = svgWrapper.querySelector('svg');
+		const svgElement = svgWrapper.querySelector('svg.generated-grid');
 		if (svgElement) {
 			downloadSVG(svgElement, fileName);
 		} else {
-			console.error('No SVG element found.');
+			console.error('No generated grid SVG found in wrapper.');
 		}
 	});
 
 	downloadPNGButton.addEventListener('click', function () {
-		const svgElement = svgWrapper.querySelector('svg');
+		const svgElement = svgWrapper.querySelector('svg.generated-grid');
 		if (svgElement) {
 			downloadPNG(svgElement, fileName);
 		} else {
-			console.error('No SVG element found.');
+			console.error('No generated grid SVG found in wrapper.');
 		}
 	});
 

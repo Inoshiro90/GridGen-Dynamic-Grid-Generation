@@ -42,25 +42,25 @@ function displayGrid(svgContainer, dimensions, userInputs) {
 	const fileName = `grid_${dimensions.pointWidth}x${dimensions.pointLength}_${
 		userInputs.pointDistance
 	}${userInputs.pointDistanceUnit}x${userInputs.dpi}_${userInputs.lineColor}${percentToHex(
-		userInputs.lineColorTransparency * 100
+		userInputs.lineColorTransparency * 100,
 	)}-${userInputs.lineWidth}_${tableNumber}`;
 
 	// Event-Listener für Download-Buttons
 	downloadSVGButton.addEventListener('click', function () {
-		const svgElement = svgWrapper.querySelector('svg');
+		const svgElement = svgWrapper.querySelector('svg.generated-grid');
 		if (svgElement) {
 			downloadSVG(svgElement, fileName);
 		} else {
-			console.error('No SVG element found.');
+			console.error('No generated grid SVG found in wrapper.');
 		}
 	});
 
 	downloadPNGButton.addEventListener('click', function () {
-		const svgElement = svgWrapper.querySelector('svg');
+		const svgElement = svgWrapper.querySelector('svg.generated-grid');
 		if (svgElement) {
 			downloadPNG(svgElement, fileName);
 		} else {
-			console.error('No SVG element found.');
+			console.error('No generated grid SVG found in wrapper.');
 		}
 	});
 

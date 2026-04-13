@@ -1,69 +1,301 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 
 <head>
-  <title>GridGen - Dynamic grid generation</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <!-- Bootstrap CSS -->
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
-  <link rel="stylesheet" href="styles/custom.css">
+  <title>GridGen — Dynamic Grid Generation</title>
+
+  <!-- Warm Design System: Inter + Roboto Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Roboto+Mono:wght@400;500&display=swap"
+    rel="stylesheet">
+
+  <link rel="stylesheet" href="styles/style.css">
 </head>
 
 <body>
-  <div class="container mt-5">
-    <h1><b>GridGen - Dynamic grid generation</b></h1>
-    <h2>Dimensions</h2>
-    <label for="input-field-point-width"><b>Width:</b></label>
-    <div class="mb-3">
-      <input type="number" id="input-field-point-width" class="form-control small-dropdown col-md-1" min="3" value="5">
+
+  <!-- ═══════════════════════════════════════════════
+       NAVBAR
+  ════════════════════════════════════════════════ -->
+  <header class="navbar" role="banner">
+    <div class="container navbar__inner">
+      <a href="#" class="navbar__brand" aria-label="GridGen Home">
+        <svg class="navbar__logo" width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+          <rect x="1" y="1" width="7" height="7" rx="1.5" stroke="currentColor" stroke-width="1.75" />
+          <rect x="12" y="1" width="7" height="7" rx="1.5" stroke="currentColor" stroke-width="1.75" />
+          <rect x="1" y="12" width="7" height="7" rx="1.5" stroke="currentColor" stroke-width="1.75" />
+          <rect x="12" y="12" width="7" height="7" rx="1.5" stroke="currentColor" stroke-width="1.75" />
+        </svg>
+        GridGen
+      </a>
+
+
+      <div class="navbar__actions">
+        <button id="themeToggle" class="btn btn-ghost btn-sm navbar__theme-btn" aria-label="Toggle dark mode"
+          title="Toggle dark mode">
+          <svg class="icon icon--sun" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+            stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="12" cy="12" r="5" />
+            <line x1="12" y1="1" x2="12" y2="3" />
+            <line x1="12" y1="21" x2="12" y2="23" />
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" />
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" />
+            <line x1="1" y1="12" x2="3" y2="12" />
+            <line x1="21" y1="12" x2="23" y2="12" />
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" />
+            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
+          </svg>
+          <svg class="icon icon--moon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+            stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+          </svg>
+        </button>
+      </div>
     </div>
-    <label for="input-field-point-length"><b>Length:</b></label>
-    <div class="mb-3">
-      <input type="number" min="3" value="5" id="input-field-point-length" class="form-control small-dropdown col-md-1">
+  </header>
+
+  <main id="main-content">
+
+    <!-- ═══════════════════════════════════════════════
+         INPUT / CONFIGURATION SECTION
+    ════════════════════════════════════════════════ -->
+    <section class="section section--warm" id="section-inputs" aria-labelledby="config-heading">
+      <div class="container">
+
+        <header class="section__header">
+          <h2 id="config-heading" class="section__title">Configure your grid</h2>
+          <p class="section__desc">
+            Set dimensions, spacing, and visual style. All settings combine into
+            a unique grid family. Rotated variants are generated automatically.
+          </p>
+          <br>
+        </header>
+
+        <div class="config-layout">
+
+          <!-- CARD: Grid Dimensions -->
+          <div class="card config-card" aria-labelledby="dim-group-title">
+            <div class="card__header">
+              <svg class="card__icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <rect x="3" y="3" width="18" height="18" rx="2" />
+                <line x1="3" y1="9" x2="21" y2="9" />
+                <line x1="3" y1="15" x2="21" y2="15" />
+                <line x1="9" y1="3" x2="9" y2="21" />
+                <line x1="15" y1="3" x2="15" y2="21" />
+              </svg>
+              <h3 id="dim-group-title" class="card__title">Dimensions</h3>
+            </div>
+            <div class="card__body">
+
+              <div class="form-group">
+                <label class="form-label" for="input-field-point-width">
+                  Width
+                  <span class="form-label__hint">min. 3</span>
+                </label>
+                <input type="number" id="input-field-point-width" class="form-input form-input--short" min="3" value="5"
+                  aria-describedby="width-hint">
+                <span id="width-hint" class="form-hint">Number of columns in the grid</span>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="input-field-point-length">
+                  Length
+                  <span class="form-label__hint">min. 3</span>
+                </label>
+                <input type="number" id="input-field-point-length" class="form-input form-input--short" min="3"
+                  value="5" aria-describedby="length-hint">
+                <span id="length-hint" class="form-hint">Number of rows in the grid</span>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- CARD: Spacing & Resolution -->
+          <div class="card config-card" aria-labelledby="spacing-group-title">
+            <div class="card__header">
+              <svg class="card__icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M5 9l-3 3 3 3M9 5l3-3 3 3M15 19l-3 3-3-3M19 9l3 3-3 3M2 12h20M12 2v20" />
+              </svg>
+              <h3 id="spacing-group-title" class="card__title">Spacing &amp; Resolution</h3>
+            </div>
+            <div class="card__body">
+
+              <div class="form-group">
+                <label class="form-label" for="input-field-cell-size">Point distance</label>
+                <div class="input-row">
+                  <input type="number" id="input-field-cell-size" class="form-input form-input--short" value="5"
+                    aria-describedby="cell-size-hint">
+                  <select class="form-select" id="cell-size-unit-dropdown" aria-label="Point distance unit">
+                    <option value="mm">mm</option>
+                    <option value="in">in</option>
+                    <option value="px">px</option>
+                  </select>
+                </div>
+                <span id="cell-size-hint" class="form-hint">Physical distance between grid points</span>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="input-field-dpi">
+                  Dots per inch
+                  <span class="form-label__hint">72 – 4000</span>
+                </label>
+                <input type="number" id="input-field-dpi" class="form-input form-input--short" value="300" min="72"
+                  max="4000" aria-describedby="dpi-hint">
+                <span id="dpi-hint" class="form-hint">Output resolution for PNG export</span>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- CARD: Line Style -->
+          <div class="card config-card" aria-labelledby="style-group-title">
+            <div class="card__header">
+              <svg class="card__icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <circle cx="12" cy="12" r="10" />
+                <line x1="12" y1="8" x2="12" y2="12" />
+                <line x1="12" y1="16" x2="12.01" y2="16" />
+              </svg>
+              <h3 id="style-group-title" class="card__title">Line Style</h3>
+            </div>
+            <div class="card__body">
+
+              <div class="form-group">
+                <label class="form-label" for="input-field-line-width">
+                  Line width
+                  <span class="form-label__hint">in points</span>
+                </label>
+                <div class="input-row">
+                  <input type="number" id="input-field-line-width" class="form-input form-input--short" value="1"
+                    min="0.2" step="0.1" aria-describedby="lw-hint">
+                  <span class="input-row__unit">pt</span>
+                </div>
+                <span id="lw-hint" class="form-hint">Stroke weight of grid lines</span>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="input-field-line-color">Line color</label>
+                <div class="color-row">
+                  <input type="color" id="input-field-line-color" class="form-color" value="#000000"
+                    aria-describedby="color-hint">
+                  <span id="color-hint" class="form-hint form-hint--inline">Stroke color</span>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="input-field-line-color-transparency">
+                  Transparency in percent
+                </label>
+
+                <input type="number" id="input-field-line-color-transparency" class="form-input form-input"
+                  value="100" min="0" max="100" aria-describedby="trans-hint"
+                  oninput="document.getElementById('input-field-line-color-transparency-slider').value = this.value">
+                <input type="range" id="input-field-line-color-transparency-slider" class="form-range form-range--short" min="0" max="100"
+                  value="100" aria-describedby="trans-hint" oninput="
+                    // document.getElementById('transparency-value').textContent = this.value + '%';
+                    // document.getElementById('range-output').textContent = this.value + '%';
+                    document.getElementById('input-field-line-color-transparency').value = this.value;">
+                <!-- <output id="range-output" class="form-range-output" aria-hidden="true">100%</output>
+                <span id="trans-hint" class="form-hint">0% = invisible · 100% = fully opaque</span> -->
+              </div>
+
+            </div>
+          </div>
+
+        </div><!-- /.config-layout -->
+
+        <!-- GENERATE BUTTON -->
+        <div class="config-actions">
+          <button id="btn-generate" class="btn btn-blue btn-lg config-actions__primary">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+              stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <polygon points="5 3 19 12 5 21 5 3" />
+            </svg>
+            Generate Grid
+          </button>
+          <p class="config-actions__note">
+            Generates the base grid plus all rotated variants automatically.
+          </p>
+          <br>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════
+         OUTPUT SECTION
+    ════════════════════════════════════════════════ -->
+    <section class="section" id="section-output" aria-labelledby="output-heading">
+      <div class="container">
+        <br>
+        <header class="section__header">
+          <h2 id="output-heading" class="section__title">Generated grids</h2>
+          <p class="section__desc">
+            Your grid variants appear below. Download individually or export
+            the entire set as a ZIP archive.
+          </p>
+          <br>
+        </header>
+
+        <!--
+          JS injects here:
+          · #btn-download-all-svgs  (.btn .btn-primary .mt-3)
+          · #btn-download-all-pngs  (.btn .btn-primary .mt-3)
+          · .svg-wrapper divs (each containing an SVG + .btn.btn-secondary buttons)
+        -->
+        <div id="generatedTablesAndGridsButtons" class="output-area" aria-live="polite"
+          aria-label="Generated grid output"> </div>
+        <div id="generatedTablesAndGrids" class="output-area" aria-live="polite" aria-label="Generated grid output">
+          <!-- Empty state — hidden by JS once content is added -->
+          <div class="output-empty" id="output-empty-state">
+            <svg class="output-empty__icon" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+              stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <rect x="3" y="3" width="18" height="18" rx="2" />
+              <line x1="3" y1="9" x2="21" y2="9" />
+              <line x1="3" y1="15" x2="21" y2="15" />
+              <line x1="9" y1="3" x2="9" y2="21" />
+              <line x1="15" y1="3" x2="15" y2="21" />
+            </svg>
+            <p class="output-empty__title">No grids yet</p>
+            <p class="output-empty__desc">
+              Configure your settings above and click <strong>Generate Grid</strong> to begin.
+            </p>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ═══════════════════════════════════════════════
+       FOOTER
+  ════════════════════════════════════════════════ -->
+  <!-- <footer class="footer" role="contentinfo">
+    <div class="container footer__inner">
+      <div class="footer__brand">
+        <svg width="14" height="14" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+          <rect x="1" y="1" width="7" height="7" rx="1.5" stroke="currentColor" stroke-width="1.75"/>
+          <rect x="12" y="1" width="7" height="7" rx="1.5" stroke="currentColor" stroke-width="1.75"/>
+          <rect x="1" y="12" width="7" height="7" rx="1.5" stroke="currentColor" stroke-width="1.75"/>
+          <rect x="12" y="12" width="7" height="7" rx="1.5" stroke="currentColor" stroke-width="1.75"/>
+        </svg>
+        <span>GridGen</span>
+      </div>
+      <p class="footer__copy">Open-source grid generation tool. Built with vanilla JS.</p>
     </div>
-    <label for="input-field-cell-size"><b>Point distance:</b></label>
-    <div class="d-flex align-items-center mb-3">
-      <input type="number" id="input-field-cell-size" value="5" class="form-control small-dropdown col-md-1">
-      <span>&nbsp</span>
-      <select class="form-control small-dropdown col-md-1" id="cell-size-unit-dropdown">
-        <option id="mm">mm</option>
-        <option id="in">in</option>
-        <option id="px">px</option>
-      </select>
-    </div>
-    <label for="input-field-line-width"><b>Line width:</b></label>
-    <div class="d-flex align-items-center mb-3">
-      <input type="number" class="form-control small-dropdown col-md-1" id="input-field-line-width" value="1"
-        min="0.2">
-      <span>&nbsp point(s)</span>
-    </div>
-    <label for="input-field-line-color"><b>Line color:</b></label>
-    <div class="d-flex align-items-center mb-3">
-      <input type="color" value="#000000" id="input-field-line-color" />
-    </div>
-    <label for="input-field-line-color-transparency"><b>Line transparency:</b></label>
-    <div class="d-flex align-items-center mb-3">
-      <input type="range" min="0" max="100" value="100" id="input-field-line-color-transparency"
-        oninput="this.nextElementSibling.value = this.value" />
-      <output>100</output>
-    </div>
-    <label for="input-field-dpi"><b>Dots per inch:</b></label>
-    <div class="d-flex align-items-center mb-3">
-      <input type="number" class="form-control small-dropdown col-md-1" id="input-field-dpi" value="300" min="72"
-        max="4000">
-    </div>
-    <button id="btn-generate" class="btn btn-secondary mt-1">
-      Generate
-    </button>
-    <br><br>
-    <div id="generatedTablesAndGrids"></div>
-  </div>
-  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+  </footer> -->
+
+  <!-- External: jszip only (Bootstrap / jQuery / Popper removed) -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
 
+  <!-- GridGen scripts — untouched -->
   <script src="scripts/data processing/getUserInputs.js"></script>
   <script src="scripts/data processing/calculateDimensions.js"></script>
   <script src="scripts/data processing/generateFirstTableValues.js"></script>
@@ -81,8 +313,50 @@
   <script src="scripts/user interface/downloadAllSVGsAsZip.js"></script>
   <script src="scripts/user interface/downloadAllPNGsAsZip.js"></script>
   <script src="scripts/user interface/attachEventListeners.js"></script>
-  <script src="scripts/user interface/hexTransparency.js"></script>
   <script src="scripts/user interface/percentToHex.js"></script>
+
+  <script>
+    // ── Theme persistence ──────────────────────────────────────────────
+    (function () {
+      const html = document.documentElement;
+      const saved = localStorage.getItem('ds-warm-theme');
+      if (saved) {
+        html.setAttribute('data-theme', saved);
+      } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        html.setAttribute('data-theme', 'dark');
+      }
+    })();
+
+    document.getElementById('themeToggle').addEventListener('click', () => {
+      const html = document.documentElement;
+      const next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+      html.setAttribute('data-theme', next);
+      localStorage.setItem('ds-warm-theme', next);
+    });
+
+    // ── Hide empty-state when JS injects content ───────────────────────
+    const outputArea = document.getElementById('generatedTablesAndGrids');
+    const emptyState = document.getElementById('output-empty-state');
+    const outputObserver = new MutationObserver(() => {
+      const hasContent = outputArea.querySelector('.svg-wrapper, #btn-download-all-svgs');
+      if (emptyState) emptyState.style.display = hasContent ? 'none' : '';
+    });
+    if (outputArea) outputObserver.observe(outputArea, { childList: true });
+
+    // ── Scroll to output after generate ───────────────────────────────
+    document.addEventListener('DOMContentLoaded', () => {
+      const btn = document.getElementById('btn-generate');
+      if (btn) {
+        btn.addEventListener('click', () => {
+          setTimeout(() => {
+            document.getElementById('section-output')
+              ?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }, 120);
+        });
+      }
+    });
+  </script>
+
 </body>
 
 </html>

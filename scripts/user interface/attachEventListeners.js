@@ -7,7 +7,7 @@ function attachEventListeners() {
 		if (userInputs) {
 			// console.log('Grid is generated with the following inputs:', userInputs);
 
-			document.getElementById('generatedTablesAndGrids').innerHTML = '';
+			document.getElementById('generatedTablesAndGridsButtons').innerHTML = '';
 
 			// Initialisierung des tables-Objekts
 			const tables = [];
@@ -32,7 +32,7 @@ function attachEventListeners() {
 			batchSVGDownloadButton.classList.add('btn', 'btn-primary', 'mt-3');
 			batchSVGDownloadButton.style.display = 'block';
 			batchSVGDownloadButton.onclick = () => downloadAllSVGsAsZip(folderName);
-			generatedTablesAndGrids.appendChild(batchSVGDownloadButton);
+			generatedTablesAndGridsButtons.appendChild(batchSVGDownloadButton);
 
 			const batchPNGDownloadButton = document.createElement('button');
 			batchPNGDownloadButton.innerText = 'Download All PNGs';
@@ -41,7 +41,8 @@ function attachEventListeners() {
 			batchPNGDownloadButton.style.display = 'block';
 			batchPNGDownloadButton.style.marginBottom = '20px';
 			batchPNGDownloadButton.onclick = () => downloadAllPNGsAsZip(folderName);
-			generatedTablesAndGrids.appendChild(batchPNGDownloadButton);
+			// generatedTablesAndGridsButtons.appendChild(document.createElement('&#32'));
+			generatedTablesAndGridsButtons.appendChild(batchPNGDownloadButton);
 
 			// Fügt die rotierten Tabellen zum 'tables' Array hinzu
 			const rotatedTables = applyRotationPattern(

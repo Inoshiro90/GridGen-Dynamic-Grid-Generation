@@ -1,6 +1,6 @@
 function downloadAllPNGsAsZip(folderName) {
 	const zip = new JSZip();
-	const svgElements = document.querySelectorAll('svg');
+	const svgElements = document.querySelectorAll('#generatedTablesAndGrids svg.generated-grid');
 	const pngPromises = []; // Array, um alle PNG-Erstellungs-Promises zu speichern
 
 	svgElements.forEach((svg, index) => {
